@@ -18,26 +18,26 @@ public:
     SinhVien() : ma(""), ten(""), tuoi(0), diem(0.0f) {}
 
     // Nhập dữ liệu
-    friend istream& operator>>(istream& in, SinhVien& sinhVien) {
+    friend istream& operator>>(istream& is, SinhVien& sinhVien) {
         cout << "Nhập mã sinh viên: ";
-        in >> sinhVien.ma;
+        is >> sinhVien.ma;
         cout << "Nhập tên sinh viên: ";
-        in.ignore(); // Để bỏ qua ký tự newline
-        getline(in, sinhVien.ten);
+        is.ignore(); // Để bỏ qua ký tự newline
+        getline(is, sinhVien.ten);
         cout << "Nhập tuổi: ";
-        in >> sinhVien.tuoi;
+        is >> sinhVien.tuoi;
         cout << "Nhập điểm: ";
-        in >> sinhVien.diem;
-        return in;
+        is >> sinhVien.diem;
+        return is;
     }
 
     // Xuất dữ liệu
-    friend ostream& operator<<(ostream& out, const SinhVien& sinhVien) {
-        out << "Mã: " << sinhVien.ma 
-            << ", Tên: " << sinhVien.ten 
-            << ", Tuổi: " << sinhVien.tuoi 
-            << ", Điểm: " << sinhVien.diem;
-        return out;
+    friend ostream& operator<<(ostream& os, const SinhVien& sinhVien) {
+        os << "Mã: " << sinhVien.ma << endl; 
+        os << "Tên: " << sinhVien.ten << endl; 
+        os << "Tuổi: " << sinhVien.tuoi << endl; 
+        os << "Điểm: " << sinhVien.diem << endl;
+        return os;
     }
 
     // So sánh điểm
@@ -217,6 +217,7 @@ public:
                     break;
                 }
                 case 3: // Hiện thị danh sách sinh viên
+                    cout << "Danh sach sinh vien: "<< endl;
                     danhSach.hienThiSinhVien();
                     break;
                 case 4: // Sắp xếp danh sách sinh viên (Tăng dần)
