@@ -1,0 +1,96 @@
+Ma SV: 12345678
+Ho ten: Nguyen Van A
+Gioi tinh: Nam
+Diem: 8.5
+Lop: CNTT1
+
+Ma SV: 23456789
+Ho ten: Tran Thi B
+Gioi tinh: Nu
+Diem: 7.5
+Lop: CNTT2
+
+Ma SV: 34567890
+Ho ten: Le Van C
+Gioi tinh: Nam
+Diem: 9
+Lop: CNTT1
+
+Ma SV: 45678901
+Ho ten: Pham Thi D
+Gioi tinh: Nu
+Diem: 6
+Lop: CNTT3
+
+Ma SV: 56789012
+Ho ten: Hoang Van E
+Gioi tinh: Nam
+Diem: 7
+Lop: CNTT4
+
+Ma SV: 67890123
+Ho ten: Do Thi F
+Gioi tinh: Nu
+Diem: 8
+Lop: CNTT5
+
+Ma SV: 78901234
+Ho ten: Vu Van G
+Gioi tinh: Nam
+Diem: 8.5
+Lop: CNTT6
+
+Ma SV: 89012345
+Ho ten: Bui Thi H
+Gioi tinh: Nu
+Diem: 9
+Lop: CNTT7
+
+Ma SV: 90123456
+Ho ten: Nguyen Van I
+Gioi tinh: Nam
+Diem: 6.5
+Lop: CNTT8
+
+Ma SV: 01234567
+Ho ten: Tran Thi J
+Gioi tinh: Nu
+Diem: 7.5
+Lop: CNTT9
+
+Ma SV: 11234567
+Ho ten: Le Van K
+Gioi tinh: Nam
+Diem: 8
+Lop: CNTT10
+
+Ma SV: 22345678
+Ho ten: Pham Thi L
+Gioi tinh: Nu
+Diem: 8.5
+Lop: CNTT11
+
+Ma SV: 33456789
+Ho ten: Hoang Van M
+Gioi tinh: Nam
+Diem: 7
+Lop: CNTT12
+
+Ma SV: 44567890
+Ho ten: Do Thi N
+Gioi tinh: Nu
+Diem: 6.5
+Lop: CNTT13
+
+Ma SV: 55678901
+Ho ten: Vu Van O
+Gioi tinh: Nam
+Diem: 8
+Lop: CNTT14
+
+Ma SV: 66789012
+Ho ten: Bui Thi P
+Gioi tinh: Nu
+Diem: 8.5
+Lop: CNTT20
+

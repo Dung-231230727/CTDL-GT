@@ -1,264 +1,283 @@
 #include <iostream>
-#include <list>
-#include <fstream>
-#include <algorithm>
 #include <string>
-
+#include <list>
+#include <algorithm>
+#include <fstream>
 using namespace std;
 
 class SinhVien {
-private:
-    string ma;
-    string ten;
-    int tuoi;
-    float diem;
+    private:
+        string maSV;
+        string hoTen;
+        string gioiTinh;
+        float diem;
+        string lop;
 
-public:
-    // Constructor
-    SinhVien() : ma(""), ten(""), tuoi(0), diem(0.0f) {}
+    public:
+        SinhVien() : maSV(""), hoTen(""), gioiTinh(""), diem(0.0f), lop("") {}
 
-    // Nhập dữ liệu
-    friend istream& operator>>(istream& is, SinhVien& sinhVien) {
-        cout << "Nhập mã sinh viên: ";
-        is >> sinhVien.ma;
-        cout << "Nhập tên sinh viên: ";
-        is.ignore(); // Để bỏ qua ký tự newline
-        getline(is, sinhVien.ten);
-        cout << "Nhập tuổi: ";
-        is >> sinhVien.tuoi;
-        cout << "Nhập điểm: ";
-        is >> sinhVien.diem;
-        return is;
-    }
+        friend istream& operator>>(istream& is, SinhVien& sv) {
+            cout << "Nhap ma SV: ";
+            is >> sv.maSV;
+            cout << "Nhap ho ten: ";
+            is.ignore();
+            getline(is, sv.hoTen);
+            cout << "Nhap gioi tinh: ";
+            getline(is, sv.gioiTinh);
+            cout << "Nhap diem: ";
+            is >> sv.diem;
+            cout << "Nhap lop: ";
+            is.ignore();
+            getline(is, sv.lop);
+            return is;
+        }
 
-    // Xuất dữ liệu
-    friend ostream& operator<<(ostream& os, const SinhVien& sinhVien) {
-        os << "Mã: " << sinhVien.ma << endl; 
-        os << "Tên: " << sinhVien.ten << endl; 
-        os << "Tuổi: " << sinhVien.tuoi << endl; 
-        os << "Điểm: " << sinhVien.diem << endl;
-        return os;
-    }
+        friend ostream& operator<<(ostream& os, const SinhVien& sv) {
+            os << "Ma SV: " << sv.maSV << endl;
+            os << "Ho ten: " << sv.hoTen << endl;
+            os << "Gioi tinh: " << sv.gioiTinh << endl;
+            os << "Diem: " << sv.diem << endl;
+            os << "Lop: " << sv.lop << endl;
+            return os;
+        }
 
-    // So sánh điểm
-    bool operator<(const SinhVien& other) const {
-        return diem < other.diem;
-    }
+        bool operator<(const SinhVien& other) const {
+            return diem < other.diem;
+        }
 
-    bool operator>(const SinhVien& other) const {
-        return diem > other.diem;
-    }
+        bool operator>(const SinhVien& other) const {
+            return diem > other.diem;
+        }
 
-    // Các hàm setter
-    void setMa(const string& ma) { this->ma = ma; }
-    void setTen(const string& ten) { this->ten = ten; }
-    void setTuoi(int tuoi) { this->tuoi = tuoi; }
-    void setDiem(float diem) { this->diem = diem; }
 
-    // Các hàm getter
-    string getMa() const { return ma; }
-    string getTen() const { return ten; }
-    int getTuoi() const { return tuoi; }
-    float getDiem() const { return diem; }
+        string getHoTen() const { return hoTen; }
+        string getMaSV() const { return maSV; }
+        float getDiem() const { return diem; }
+        void setMaSV(const string& ma) { maSV = ma; }
+        void setHoTen(const string& ten) { hoTen = ten; }
+        void setGioiTinh(const string& gt) { gioiTinh = gt; }
+        void setDiem(float d) { diem = d; }
+        void setLop(const string& l) { lop = l; }
 };
 
 class DanhSachSinhVien {
-private:
-    list<SinhVien> sinhViens;
+    private:
+        list<SinhVien> sinhViens;
 
-public:
-    void themSinhVien() {
-        SinhVien sinhVien;
-        cin >> sinhVien;
-        sinhViens.push_back(sinhVien);
-    }
+    public:
+        void docTuFile(const string& tenFile) {
+            ifstream file(tenFile);
+            if (!file.is_open()) {
+                cout << "Khong the mo file: " << tenFile << endl;
+                return;
+            }
 
-    void nhapTuBanPhim(int soLuong) {
-        for (int i = 0; i < soLuong; ++i) {
-            cout << "Nhập thông tin cho sinh viên thứ " << (i + 1) << ":\n";
-            themSinhVien();
+            while (true) {
+                SinhVien sv;
+                string maSV, hoTen, gioiTinh, lop;
+                float diem;
+
+                // Đọc mã SV
+                if (!getline(file, maSV) || maSV.empty()) break;
+
+                // Đọc họ tên
+                if (!getline(file, hoTen) || hoTen.empty()) break;
+
+                // Đọc giới tính
+                if (!getline(file, gioiTinh) || gioiTinh.empty()) break;
+
+                // Đọc điểm
+                if (!(file >> diem)) break;
+                file.ignore(); // Bỏ qua ký tự newline sau khi đọc điểm
+
+                // Đọc lớp
+                if (!getline(file, lop) || lop.empty()) break;
+
+                // Gán giá trị cho sinh viên
+                sv.setMaSV(maSV);
+                sv.setHoTen(hoTen);
+                sv.setGioiTinh(gioiTinh);
+                sv.setDiem(diem);
+                sv.setLop(lop);
+
+                sinhViens.push_back(sv);
+            }
+
+            file.close();
+            cout << "Da nhap danh sach sinh vien tu file: " << tenFile << endl;
         }
-    }
 
-    void hienThiSinhVien() {
-        for (const auto& sinhVien : sinhViens) {
-            cout << sinhVien << endl;
+
+        void ghiVaoFile(const string& tenFile) {
+            ofstream file(tenFile);
+            if (!file.is_open()) {
+                cout << "Khong the mo file: " << tenFile << endl;
+                return;
+            }
+
+            list<SinhVien>::iterator it;
+            for (it = sinhViens.begin(); it != sinhViens.end(); ++it) {
+                file << *it << endl;
+            }
+            file.close();
         }
-    }
 
-    void sapXepSinhVienTangDan() {
-        sinhViens.sort();
-    }
-
-    void sapXepSinhVienGiamDan() {
-        sinhViens.sort(greater());
-    }
-
-    void timMax() {
-        if (sinhViens.empty()) {
-            cout << "Danh sách rỗng." << endl;
-            return;
+        void themSinhVien() {
+            SinhVien sv;
+            cin >> sv;
+            sinhViens.push_back(sv);
         }
-        auto maxSinhVien = *max_element(sinhViens.begin(), sinhViens.end(), [](const SinhVien& a, const SinhVien& b) {
-            return a.getDiem() < b.getDiem();
-        });
-        cout << "Sinh viên có điểm cao nhất: " << maxSinhVien << endl;
-    }
 
-    void timMin() {
-        if (sinhViens.empty()) {
-            cout << "Danh sách rỗng." << endl;
-            return;
+        void xoaSinhVien(const string& maSV) {
+            list<SinhVien>::iterator it;
+            for (it = sinhViens.begin(); it != sinhViens.end(); ++it) {
+                if (it->getMaSV() == maSV) {
+                    sinhViens.erase(it);
+                    cout << "Da xoa sinh vien co ma: " << maSV << endl;
+                    return;
+                }
+            }
+            cout << "Khong tim thay sinh vien de xoa." << endl;
         }
-        auto minSinhVien = *min_element(sinhViens.begin(), sinhViens.end(), [](const SinhVien& a, const SinhVien& b) {
-            return a.getDiem() < b.getDiem();
-        });
-        cout << "Sinh viên có điểm thấp nhất: " << minSinhVien << endl;
-    }
 
-    void timSinhVien(const string& ma) {
-        auto it = find_if(sinhViens.begin(), sinhViens.end(), [&ma](const SinhVien& sinhVien) {
-            return sinhVien.getMa() == ma;
-        });
-        if (it != sinhViens.end()) {
-            cout << "Tìm thấy: " << *it << endl;
-        } else {
-            cout << "Không tìm thấy sinh viên." << endl;
+        void hienThiDanhSach() {
+            list<SinhVien>::iterator it;
+            for (it = sinhViens.begin(); it != sinhViens.end(); ++it) {
+                cout << *it << endl;
+            }
         }
-    }
 
-    void xoaSinhVien(const string& ma) {
-        auto it = remove_if(sinhViens.begin(), sinhViens.end(), [&ma](const SinhVien& sinhVien) {
-            return sinhVien.getMa() == ma;
-        });
-        if (it != sinhViens.end()) {
-            sinhViens.erase(it, sinhViens.end());
-            cout << "Đã xóa sinh viên có mã: " << ma << endl;
-        } else {
-            cout << "Không tìm thấy sinh viên để xóa." << endl;
+        void suaThongTinSinhVien(const string& maSV) {
+            list<SinhVien>::iterator it;
+            for (it = sinhViens.begin(); it != sinhViens.end(); ++it) {
+                if (it->getMaSV() == maSV) {
+                    string hoTen, gioiTinh, lop;
+                    float diem;
+                    cout << "Nhap ho ten moi: ";
+                    cin.ignore();
+                    getline(cin, hoTen);
+                    cout << "Nhap gioi tinh moi: ";
+                    getline(cin, gioiTinh);
+                    cout << "Nhap diem moi: ";
+                    cin >> diem;
+                    cout << "Nhap lop moi: ";
+                    cin.ignore();
+                    getline(cin, lop);
+                    it->setHoTen(hoTen);
+                    it->setGioiTinh(gioiTinh);
+                    it->setDiem(diem);
+                    it->setLop(lop);
+                    cout << "Da cap nhat thong tin!" << endl;
+                    return;
+                }
+            }
+            cout << "Khong tim thay sinh vien de sua." << endl;
         }
-    }
 
-    void nhapTuFile(const string& tenFile) {
-    ifstream file(tenFile);
-    if (!file.is_open()) {
-        cout << "Không thể mở file: " << tenFile << endl;
-        return;
-    }
+        void timKiemSinhVien(const string& hoTen) {
+            list<SinhVien>::iterator it;
+            for (it = sinhViens.begin(); it != sinhViens.end(); ++it) {
+                if (it->getHoTen() == hoTen) {
+                    cout << "Tim thay sinh vien: " << endl;
+                    cout << *it << endl;
+                    return;
+                }
+            }
+            cout << "Khong tim thay sinh vien." << endl;
+        }
 
-    int n;
-    file >> n; // Đọc số lượng sinh viên
-    file.ignore(); // Bỏ qua ký tự newline
+        void sapXepTangDan() {
+            sinhViens.sort();
+        }
 
-    for (int i = 0; i < n; ++i) {
-        SinhVien sinhVien;
-        string ma, ten;
-        int tuoi;
-        float diem;
-
-        // Đọc từng thông tin
-        getline(file, ma);
-        getline(file, ten);
-        file >> tuoi;
-        file >> diem;
-        file.ignore(); // Bỏ qua ký tự newline
-
-        // Gán giá trị cho sinh viên
-        sinhVien.setMa(ma);
-        sinhVien.setTen(ten);
-        sinhVien.setTuoi(tuoi);
-        sinhVien.setDiem(diem);
-
-        sinhViens.push_back(sinhVien);
-    }
-
-    file.close();
-    cout << "Đã nhập " << n << " sinh viên từ file." << endl;
-}
+        void sapXepGiamDan() {
+            sinhViens.sort(greater<SinhVien>());
+        }
 };
 
+
 class App {
-private:
-    DanhSachSinhVien danhSach;
+    private:
+        DanhSachSinhVien danhSach;
 
-public:
-    void hienThiMenu() {
-        int choice;
-        do {
-            cout << "\n=== MENU QUẢN LÝ SINH VIÊN ===" << endl;
-            cout << "1. Nhập danh sách sinh viên từ file" << endl; // Nhập từ file
-            cout << "2. Nhập danh sách viên từ bàn phím" << endl; // Nhập nhiều sinh viên
-            cout << "3. Hiện thị danh sách sinh viên" << endl;
-            cout << "4. Sắp xếp danh sách sinh viên (Tăng dần)" << endl;
-            cout << "5. Sắp xếp danh sách sinh viên (Giảm dần)" << endl;
-            cout << "6. Tìm sinh viên có điểm cao nhất" << endl;
-            cout << "7. Tìm sinh viên có điểm thấp nhất" << endl;
-            cout << "8. Tìm sinh viên theo mã" << endl;
-            cout << "9. Xóa sinh viên theo mã" << endl; // Xóa sinh viên
-            cout << "10. Thêm sinh viên" << endl; // Thêm sinh viên
-            cout << "0. Thoát" << endl;
-            cout << "Chọn: ";
-            cin >> choice;
-            cout << endl;
+    public:
+        void hienThiMenu() {
+            int choice;
+            do {
+                cout << "\n=== MENU QUAN LY SINH VIEN ===" << endl;
+                cout << "1. Doc danh sach sinh vien tu file" << endl;
+                cout << "2. Ghi danh sach sinh vien vao file" << endl;
+                cout << "3. Nhap them sinh vien" << endl;
+                cout << "4. Xoa sinh vien" << endl;
+                cout << "5. Hien thi danh sach sinh vien" << endl;
+                cout << "6. Sua thong tin sinh vien" << endl;
+                cout << "7. Tim kiem sinh vien theo ho ten" << endl;
+                cout << "8. Sap xep danh sach sinh vien tang dan theo diem" << endl;
+                cout << "9. Sap xep danh sach sinh vien giam dan theo diem" << endl;
+                cout << "0. Thoat" << endl;
+                cout << "Chon: ";
+                cin >> choice;
+                cout << endl;
 
-            switch (choice) {
-                case 1: { // Nhập danh sách sinh viên từ file
-                    string tenFile;
-                    cout << "Nhập tên file: ";
-                    cin >> tenFile;
-                    danhSach.nhapTuFile(tenFile);
-                    break;
+                switch (choice) {
+                    case 1: {
+                        string tenFile;
+                        cout << "Nhap ten file: ";
+                        cin >> tenFile;
+                        danhSach.docTuFile(tenFile);
+                        break;
+                    }
+                    case 2: {
+                        string tenFile;
+                        cout << "Nhap ten file: ";
+                        cin >> tenFile;
+                        danhSach.ghiVaoFile(tenFile);
+                        break;
+                    }
+                    case 3:
+                        danhSach.themSinhVien();
+                        break;
+                    case 4: {
+                        string maSV;
+                        cout << "Nhap ma sinh vien can xoa: ";
+                        cin >> maSV;
+                        danhSach.xoaSinhVien(maSV);
+                        break;
+                    }
+                    case 5:
+                        danhSach.hienThiDanhSach();
+                        break;
+                    case 6: {
+                        string maSV;
+                        cout << "Nhap ma sinh vien can sua: ";
+                        cin >> maSV;
+                        danhSach.suaThongTinSinhVien(maSV);
+                        break;
+                    }
+                    case 7: {
+                        string hoTen;
+                        cout << "Nhap ho ten sinh vien can tim: ";
+                        cin.ignore();
+                        getline(cin, hoTen);
+                        danhSach.timKiemSinhVien(hoTen);
+                        break;
+                    }
+                    case 8:
+                        danhSach.sapXepTangDan();
+                        cout << "Da sap xep danh sach sinh vien tang dan theo diem." << endl;
+                        break;
+                    case 9:
+                        danhSach.sapXepGiamDan();
+                        cout << "Da sap xep danh sach sinh vien giam dan theo diem." << endl;
+                        break;
+                    case 0:
+                        cout << "Thoat chuong trinh." << endl;
+                        break;
+                    default:
+                        cout << "Lua chon khong hop le. Vui long chon lai." << endl;
                 }
-                case 2: { // Nhập nhiều sinh viên từ bàn phím
-                    int soLuong;
-                    cout << "Nhập số lượng sinh viên cần thêm: ";
-                    cin >> soLuong;
-                    danhSach.nhapTuBanPhim(soLuong);
-                    break;
-                }
-                case 3: // Hiện thị danh sách sinh viên
-                    cout << "Danh sach sinh vien: "<< endl;
-                    danhSach.hienThiSinhVien();
-                    break;
-                case 4: // Sắp xếp danh sách sinh viên (Tăng dần)
-                    danhSach.sapXepSinhVienTangDan();
-                    cout << "Đã sắp xếp danh sách sinh viên tăng dần." << endl;
-                    break;
-                case 5: // Sắp xếp danh sách sinh viên (Giảm dần)
-                    danhSach.sapXepSinhVienGiamDan();
-                    cout << "Đã sắp xếp danh sách sinh viên giảm dần." << endl;
-                    break;
-                case 6: // Tìm sinh viên có điểm cao nhất
-                    danhSach.timMax();
-                    break;
-                case 7: // Tìm sinh viên có điểm thấp nhất
-                    danhSach.timMin();
-                    break;
-                case 8: { // Tìm sinh viên theo mã
-                    string ma;
-                    cout << "Nhập mã sinh viên cần tìm: ";
-                    cin >> ma;
-                    danhSach.timSinhVien(ma);
-                    break;
-                }
-                case 9: { // Xóa sinh viên theo mã
-                    string ma;
-                    cout << "Nhập mã sinh viên cần xóa: ";
-                    cin >> ma;
-                    danhSach.xoaSinhVien(ma);
-                    break;
-                }
-                case 10: // Thêm sinh viên
-                    danhSach.themSinhVien();
-                    break;
-                case 0: // Thoát
-                    cout << "Thoát chương trình." << endl;
-                    break;
-                default:
-                    cout << "Lựa chọn không hợp lệ. Vui lòng chọn lại." << endl;
-            }
-        } while (choice != 0);
-    }
+            } while (choice != 0);
+        }
 };
 
 int main() {

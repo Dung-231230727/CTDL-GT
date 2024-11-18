@@ -1,0 +1,80 @@
+12345678
+Nguyen Van A
+Nam
+8.5
+CNTT1
+23456789
+Tran Thi B
+Nu
+7.5
+CNTT2
+34567890
+Le Van C
+Nam
+9.0
+CNTT1
+45678901
+Pham Thi D
+Nu
+6.0
+CNTT3
+56789012
+Hoang Van E
+Nam
+7.0
+CNTT4
+67890123
+Do Thi F
+Nu
+8.0
+CNTT5
+78901234
+Vu Van G
+Nam
+8.5
+CNTT6
+89012345
+Bui Thi H
+Nu
+9.0
+CNTT7
+90123456
+Nguyen Van I
+Nam
+6.5
+CNTT8
+01234567
+Tran Thi J
+Nu
+7.5
+CNTT9
+11234567
+Le Van K
+Nam
+8.0
+CNTT10
+22345678
+Pham Thi L
+Nu
+8.5
+CNTT11
+33456789
+Hoang Van M
+Nam
+7.0
+CNTT12
+44567890
+Do Thi N
+Nu
+6.5
+CNTT13
+55678901
+Vu Van O
+Nam
+8.0
+CNTT14
+66789012
+Bui Thi P
+Nu
+8.5
+CNTT20
