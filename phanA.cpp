@@ -15,6 +15,7 @@ class SinhVien {
 
     public:
         SinhVien() : maSV(""), hoTen(""), gioiTinh(""), diem(0.0f), lop("") {}
+        SinhVien(string ma, string ten, string gt, float d, string l) : maSV(ma), hoTen(ten), gioiTinh(gt), diem(d), lop(l) {}
 
         friend istream& operator>>(istream& is, SinhVien& sv) {
             cout << "Nhap ma SV: ";
@@ -49,10 +50,9 @@ class SinhVien {
             return diem > other.diem;
         }
 
-
-        string getHoTen() const { return hoTen; }
-        string getMaSV() const { return maSV; }
-        float getDiem() const { return diem; }
+        string getHoTen() { return hoTen; }
+        string getMaSV() { return maSV; }
+        float getDiem() { return diem; }
         void setMaSV(const string& ma) { maSV = ma; }
         void setHoTen(const string& ten) { hoTen = ten; }
         void setGioiTinh(const string& gt) { gioiTinh = gt; }
@@ -72,35 +72,25 @@ class DanhSachSinhVien {
                 return;
             }
 
-            while (true) {
-                SinhVien sv;
-                string maSV, hoTen, gioiTinh, lop;
+            int n;
+            file >> n;
+            file.ignore();
+
+            for (int i = 0; i < n; i++) {
+                string maSV, hoten, gioitinh, lop;
                 float diem;
 
-                // Đọc mã SV
-                if (!getline(file, maSV) || maSV.empty()) break;
+                // Đọc thông tin
+                getline(file, maSV);
+                getline(file, hoten);
+                getline(file, gioitinh);
+                file >> diem;
+                file.ignore();
+                getline(file, lop);
 
-                // Đọc họ tên
-                if (!getline(file, hoTen) || hoTen.empty()) break;
-
-                // Đọc giới tính
-                if (!getline(file, gioiTinh) || gioiTinh.empty()) break;
-
-                // Đọc điểm
-                if (!(file >> diem)) break;
-                file.ignore(); // Bỏ qua ký tự newline sau khi đọc điểm
-
-                // Đọc lớp
-                if (!getline(file, lop) || lop.empty()) break;
-
-                // Gán giá trị cho sinh viên
-                sv.setMaSV(maSV);
-                sv.setHoTen(hoTen);
-                sv.setGioiTinh(gioiTinh);
-                sv.setDiem(diem);
-                sv.setLop(lop);
-
-                sinhViens.push_back(sv);
+                // Tạo và thêm
+                SinhVien sinhvien(maSV, hoten, gioitinh, diem, lop);
+                sinhViens.push_back(sinhvien);
             }
 
             file.close();

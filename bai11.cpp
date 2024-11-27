@@ -14,9 +14,9 @@ class KhachHang {
         KhachHang() : maKH(0), hoTen(""), sdt("") {}
         KhachHang(int ma, string ten, string phone) : maKH(ma), hoTen(ten), sdt(phone) {}
 
-        int getMaKH() const { return maKH; }
-        string getHoTen() const { return hoTen; }
-        string getSDT() const { return sdt; }
+        int getMaKH() { return maKH; }
+        string getHoTen() { return hoTen; }
+        string getSDT() { return sdt; }
         
         void setHoTen(string ten) { hoTen = ten; }
         void setSDT(string phone) { sdt = phone; }
@@ -33,7 +33,7 @@ class KhachHang {
         }
 
         // Xuất thông tin khách hàng
-        void xuat() const {
+        void xuat() {
             cout << "Ma KH: " << maKH << endl;
             cout << "Ho ten: " << hoTen << endl;
             cout << "SDT: " << sdt << endl;
@@ -49,7 +49,7 @@ class Node {
         Node* next;
 
         Node(const T& value) : data(value), prev(nullptr), next(nullptr) {}
-    };
+};
 
 //Lớp DoublyLinkedList
 template<typename T>
@@ -115,7 +115,7 @@ class DoublyLinkedList {
         }
 
         // Hiển thị toàn bộ danh sách
-        void display() const {
+        void display() {
             if (head == nullptr) {
                 cout << "Danh sach trong!" << endl;
                 return;
@@ -269,10 +269,10 @@ int main() {
                 break;
             }
             case 0:
-                cout << "Tam biet!" << endl;
+                cout << "Thoat chuong trinh." << endl;
                 break;
             default:
-                cout << "Lua chon khong hop le!" << endl;
+                cout << "Lua chon khong hop le. Vui long chon lai." << endl;
         }
     } while (choice != 0);
 
