@@ -3,43 +3,6 @@
 #include <fstream>
 using namespace std;
 
-// Lớp KhachHang
-class KhachHang {
-    private:
-        int maKH;
-        string hoTen;
-        string sdt;
-
-    public:
-        KhachHang() : maKH(0), hoTen(""), sdt("") {}
-        KhachHang(int ma, string ten, string phone) : maKH(ma), hoTen(ten), sdt(phone) {}
-
-        int getMaKH() { return maKH; }
-        string getHoTen() { return hoTen; }
-        string getSDT() { return sdt; }
-        
-        void setHoTen(string ten) { hoTen = ten; }
-        void setSDT(string phone) { sdt = phone; }
-
-        // Nhập thông tin khách hàng
-        void nhap() {
-            cout << "Nhap ma KH: ";
-            cin >> maKH;
-            cin.ignore();
-            cout << "Nhap ho ten: ";
-            getline(cin, hoTen);
-            cout << "Nhap SDT: ";
-            getline(cin, sdt);
-        }
-
-        // Xuất thông tin khách hàng
-        void xuat() {
-            cout << "Ma KH: " << maKH << endl;
-            cout << "Ho ten: " << hoTen << endl;
-            cout << "SDT: " << sdt << endl;
-        }
-};
-
 // Node
 template<typename T>
 class Node {
@@ -130,13 +93,49 @@ class DoublyLinkedList {
         }
 };
 
+// Lớp KhachHang
+class KhachHang {
+    private:
+        int maKH;
+        string hoTen;
+        string sdt;
+
+    public:
+        KhachHang() : maKH(0), hoTen(""), sdt("") {}
+        KhachHang(int ma, string ten, string sodt) : maKH(ma), hoTen(ten), sdt(sodt) {}
+
+        // Nhập
+        void nhap() {
+            cout << "Nhap ma KH: ";
+            cin >> maKH;
+            cin.ignore();
+            cout << "Nhap ho ten: ";
+            getline(cin, hoTen);
+            cout << "Nhap SDT: ";
+            getline(cin, sdt);
+        }
+
+        // Xuất
+        void xuat() {
+            cout << "Ma KH: " << maKH << endl;
+            cout << "Ho ten: " << hoTen << endl;
+            cout << "SDT: " << sdt << endl;
+        }
+
+        int getMaKH() { return maKH; }
+        string getHoTen() { return hoTen; }
+        string getSDT() { return sdt; }
+        void setHoTen(string ten) { hoTen = ten; }
+        void setSDT(string sodt) { sdt = sodt; }
+};
+
 // Lớp quản lý khách hàng
 class QuanLyKhachHang {
     private:
         DoublyLinkedList<KhachHang> danhSach;
 
     public:
-        void nhapTuFile(string tenFile) {
+        void nhapTuFile(const string& tenFile) {
             ifstream file(tenFile);
             if (!file.is_open()) {
                 cout << "Khong the mo file!" << endl;
@@ -163,7 +162,7 @@ class QuanLyKhachHang {
             }
 
             file.close();
-            cout << "Nhap file thanh cong!" << endl;
+            cout << "Da nhap danh sach sinh vien tu file: " << tenFile << endl;
         }
 
         // Nhập thêm khách hàng
@@ -197,9 +196,9 @@ class QuanLyKhachHang {
 
             int choice;
             do {
-                cout << "1. Xoa khach hang";
-                cout << "2. Sua thong tin khach hang";
-                cout << "0. Thoat";
+                cout << "1. Xoa khach hang" << endl;
+                cout << "2. Sua thong tin khach hang" << endl;
+                cout << "0. Thoat" <<endl;
                 cout << "Chon: ";
                 cin >> choice;
                 cout << endl;
@@ -236,45 +235,52 @@ class QuanLyKhachHang {
         }
 };
 
-int main() {
-    QuanLyKhachHang qlkh;
-    int choice;
+class App {
+    private:
+        QuanLyKhachHang qlkh;
+    public:
+        void hienThiMenu(){
+            int choice;
+            do {
+                cout << "=== QUAN LY KHACH HANG ===" << endl;
+                cout << "1. Nhap them khach hang" << endl;
+                cout << "2. Tim kiem va xu ly khach hang" << endl;
+                cout << "3. Hien thi danh sach khach hang" << endl;
+                cout << "4. Nhap tu file" << endl;
+                cout << "0. Thoat" << endl;
+                cout << "Chon: ";
+                cin >> choice;
+                cout << endl;
 
-    do {
-        cout << "=== QUAN LY KHACH HANG ===" << endl;
-        cout << "1. Nhap them khach hang" << endl;
-        cout << "2. Tim kiem va xu ly khach hang" << endl;
-        cout << "3. Hien thi danh sach khach hang" << endl;
-        cout << "4. Nhap tu file" << endl;
-        cout << "0. Thoat" << endl;
-        cout << "Chon: ";
-        cin >> choice;
-        cin.ignore();
-
-        switch (choice) {
-            case 1:
-                qlkh.nhapKhachHang();
-                break;
-            case 2:
-                qlkh.timVaXuLyKhachHang();
-                break;
-            case 3:
-                qlkh.hienThiDanhSach();
-                break;
-            case 4: {
-                string tenFile;
-                cout << "Nhap ten file: ";
-                getline(cin, tenFile);
-                qlkh.nhapTuFile(tenFile);
-                break;
-            }
-            case 0:
-                cout << "Thoat chuong trinh." << endl;
-                break;
-            default:
-                cout << "Lua chon khong hop le. Vui long chon lai." << endl;
+                switch (choice) {
+                    case 1:
+                        qlkh.nhapKhachHang();
+                        break;
+                    case 2:
+                        qlkh.timVaXuLyKhachHang();
+                        break;
+                    case 3:
+                        qlkh.hienThiDanhSach();
+                        break;
+                    case 4: {
+                        string tenFile;
+                        cout << "Nhap ten file: ";
+                        cin >> tenFile;
+                        qlkh.nhapTuFile(tenFile);
+                        break;
+                    }
+                    case 0:
+                        cout << "Thoat chuong trinh." << endl;
+                        break;
+                    default:
+                        cout << "Lua chon khong hop le. Vui long chon lai." << endl;
+                }
+            } while (choice != 0);
         }
-    } while (choice != 0);
+};
 
+int main() {
+    App app;
+    app.hienThiMenu();
     return 0;
 }

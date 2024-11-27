@@ -118,7 +118,11 @@ class DanhSachSinhVien {
             sinhViens.push_back(sv);
         }
 
-        void xoaSinhVien(const string& maSV) {
+        void xoaSinhVien() {
+            string maSV;
+            cout << "Nhap ma sinh vien can xoa: ";
+            cin >> maSV;
+
             list<SinhVien>::iterator it;
             for (it = sinhViens.begin(); it != sinhViens.end(); ++it) {
                 if (it->getMaSV() == maSV) {
@@ -137,7 +141,11 @@ class DanhSachSinhVien {
             }
         }
 
-        void suaThongTinSinhVien(const string& maSV) {
+        void suaThongTinSinhVien() {
+            string maSV;
+            cout << "Nhap ma sinh vien can sua: ";
+            cin >> maSV;
+
             list<SinhVien>::iterator it;
             for (it = sinhViens.begin(); it != sinhViens.end(); ++it) {
                 if (it->getMaSV() == maSV) {
@@ -164,7 +172,12 @@ class DanhSachSinhVien {
             cout << "Khong tim thay sinh vien de sua." << endl;
         }
 
-        void timKiemSinhVien(const string& hoTen) {
+        void timKiemSinhVien() {
+            string hoTen;
+            cout << "Nhap ho ten sinh vien can tim: ";
+            cin.ignore();
+            getline(cin, hoTen);
+
             list<SinhVien>::iterator it;
             for (it = sinhViens.begin(); it != sinhViens.end(); ++it) {
                 if (it->getHoTen() == hoTen) {
@@ -228,28 +241,18 @@ class App {
                         danhSach.themSinhVien();
                         break;
                     case 4: {
-                        string maSV;
-                        cout << "Nhap ma sinh vien can xoa: ";
-                        cin >> maSV;
-                        danhSach.xoaSinhVien(maSV);
+                        danhSach.xoaSinhVien();
                         break;
                     }
                     case 5:
                         danhSach.hienThiDanhSach();
                         break;
                     case 6: {
-                        string maSV;
-                        cout << "Nhap ma sinh vien can sua: ";
-                        cin >> maSV;
-                        danhSach.suaThongTinSinhVien(maSV);
+                        danhSach.suaThongTinSinhVien();
                         break;
                     }
                     case 7: {
-                        string hoTen;
-                        cout << "Nhap ho ten sinh vien can tim: ";
-                        cin.ignore();
-                        getline(cin, hoTen);
-                        danhSach.timKiemSinhVien(hoTen);
+                        danhSach.timKiemSinhVien();
                         break;
                     }
                     case 8:
