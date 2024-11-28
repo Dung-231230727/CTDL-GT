@@ -1,97 +1,8 @@
 #include <iostream>
+#include "DoublyLinkedList.hpp"
 #include <string>
 #include <fstream>
 using namespace std;
-
-// Node
-template<typename T>
-class Node {
-    public:
-        T data;
-        Node* prev;
-        Node* next;
-
-        Node(const T& value) : data(value), prev(nullptr), next(nullptr) {}
-};
-
-//Lớp DoublyLinkedList
-template<typename T>
-class DoublyLinkedList {
-    private:
-        Node<T>* head;
-        Node<T>* tail;
-        int size;
-
-    public:
-        DoublyLinkedList() : head(nullptr), tail(nullptr), size(0) {}
-
-        // Hàm hủy
-        ~DoublyLinkedList() {
-            Node<T>* current = head;
-            while (current != nullptr) {
-                Node<T>* next = current->next;
-                delete current;
-                current = next;
-            }
-        }
-
-        // Thêm phần tử vào cuối danh sách
-        void pushBack(const T& value) {
-            Node<T>* newNode = new Node<T>(value);
-            if (head == nullptr) {
-                head = tail = newNode;
-            } else {
-                tail->next = newNode;
-                newNode->prev = tail;
-                tail = newNode;
-            }
-            size++;
-        }
-
-        // Xóa một node khỏi danh sách
-        void removeNode(Node<T>* node) {
-            if (node == nullptr) return;
-
-            if (node->prev != nullptr)
-                node->prev->next = node->next;
-            else
-                head = node->next;
-
-            if (node->next != nullptr)
-                node->next->prev = node->prev;
-            else
-                tail = node->prev;
-
-            delete node;
-            size--;
-        }
-
-        // Tìm kiếm khách hàng theo mã
-        Node<T>* findByMaKH(int ma) {
-            Node<T>* current = head;
-            while (current != nullptr) {
-                if (current->data.getMaKH() == ma)
-                    return current;
-                current = current->next;
-            }
-            return nullptr;
-        }
-
-        // Hiển thị toàn bộ danh sách
-        void display() {
-            if (head == nullptr) {
-                cout << "Danh sach trong!" << endl;
-                return;
-            }
-
-            Node<T>* current = head;
-            while (current != nullptr) {
-                current->data.xuat();
-                cout << endl;
-                current = current->next;
-            }
-        }
-};
 
 // Lớp KhachHang
 class KhachHang {
@@ -116,17 +27,21 @@ class KhachHang {
         }
 
         // Xuất
-        void xuat() {
+        void xuat() const {
             cout << "Ma KH: " << maKH << endl;
             cout << "Ho ten: " << hoTen << endl;
             cout << "SDT: " << sdt << endl;
         }
 
-        int getMaKH() { return maKH; }
-        string getHoTen() { return hoTen; }
-        string getSDT() { return sdt; }
+        int getMaKH() const { return maKH; }
+        string getHoTen() const { return hoTen; }
+        string getSDT() const { return sdt; }
         void setHoTen(string ten) { hoTen = ten; }
         void setSDT(string sodt) { sdt = sodt; }
+
+        bool operator==(const KhachHang& other) {
+            return maKH == other.maKH;
+        }
 };
 
 // Lớp quản lý khách hàng
@@ -162,7 +77,7 @@ class QuanLyKhachHang {
             }
 
             file.close();
-            cout << "Da nhap danh sach sinh vien tu file: " << tenFile << endl;
+            cout << "Da nhap danh sach khach hang tu file: " << tenFile << endl;
         }
 
         // Nhập thêm khách hàng
@@ -185,7 +100,7 @@ class QuanLyKhachHang {
             cout << "Nhap ma KH can tim: ";
             cin >> ma;
 
-            Node<KhachHang>* node = danhSach.findByMaKH(ma);
+            Node<KhachHang>* node = danhSach.find(ma);
             if (node == nullptr) {
                 cout << "Khong tim thay khach hang!" << endl;
                 return;
@@ -198,17 +113,28 @@ class QuanLyKhachHang {
             do {
                 cout << "1. Xoa khach hang" << endl;
                 cout << "2. Sua thong tin khach hang" << endl;
-                cout << "0. Thoat" <<endl;
+                cout << "0. Thoat" << endl;
                 cout << "Chon: ";
                 cin >> choice;
                 cout << endl;
                 cin.ignore();
 
                 switch (choice) {
-                    case 1:
-                        danhSach.removeNode(node);
+                    case 1: {
+                        // Tìm vị trí của node cần xóa
+                        Node<KhachHang>* current = danhSach.getHead();
+                        int position = 0;
+                        while (current != nullptr) {
+                            if (current == node) {
+                                danhSach.removeAt(position);
+                                break;
+                            }
+                            current = current->next;
+                            position++;
+                        }
                         cout << "Da xoa khach hang!" << endl;
                         return;
+                    }
                     case 2: {
                         string hoTenMoi, sdtMoi;
                         cout << "Nhap ho ten moi: ";
@@ -231,7 +157,7 @@ class QuanLyKhachHang {
         // Hiển thị danh sách khách hàng
         void hienThiDanhSach() {
             cout << "DANH SACH KHACH HANG:" << endl;
-            danhSach.display();
+            danhSach.printList();
         }
 };
 
@@ -239,7 +165,7 @@ class App {
     private:
         QuanLyKhachHang qlkh;
     public:
-        void hienThiMenu(){
+        void hienThiMenu() {
             int choice;
             do {
                 cout << "=== QUAN LY KHACH HANG ===" << endl;
